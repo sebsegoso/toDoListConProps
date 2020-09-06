@@ -1,28 +1,43 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <input v-model="tarea" type="text" autofocus @keyup.13="add" />
+    <button @click="add">Agregar tarea</button>
+    <Tarea
+      v-for="(tarea, i) in tareas "
+      :tarea="tarea"
+      :indice="i"
+      :key="i"
+      @eliminar="eliminarTarea"
+    ></Tarea>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Tarea from "./components/Tarea";
 
 export default {
-  name: 'App',
+  name: "toDoList",
+  data() {
+    return {
+      tarea: "",
+      tareas: [],
+    };
+  },
   components: {
-    HelloWorld
-  }
-}
+    Tarea,
+  },
+  methods: {
+    add() {
+      this.tareas.push(this.tarea);
+      this.tarea = "";
+    },
+    eliminarTarea(indice) {
+      this.tareas.splice(indice, 1);
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
